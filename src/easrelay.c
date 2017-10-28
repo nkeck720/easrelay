@@ -242,6 +242,7 @@ int main(int argc, char **argv) {
 	fflush(monitorOut);
 	sleep(1);
       }
+      pclose(monitorOut);
       printf("Alert Ended\n");
       fflush(stdout);
     }
