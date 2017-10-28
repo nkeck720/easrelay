@@ -1,0 +1,11 @@
+# Any EMACS scratch files
+*~
+
+# Any object and output files
+*.o
+*.exe
+*.out
+a.out
+
+# Temporary files
+*.tmp
