@@ -1,0 +1,5 @@
+Package: easrelay
+Version: 1.0
+Maintainer: Noah Keck
+Architecture: all
+Description: A program for monitoring for and relaying EAS alerts.
