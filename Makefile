@@ -6,7 +6,7 @@ CFLAGS=-Wall -Wextra -g -O2
 
 all:
 	cd src
-	$(CC) $(CFLAGS) -o ./bin/easrelay easrelay.c
+	$(CC) $(CFLAGS) -o ./bin/easrelay ./src/easrelay.c
 	cd ..
 
 deb: all
@@ -20,3 +20,7 @@ deb: all
 	chmod +x ./DEBIAN/postinst
 	cd ..
 	dpkg-deb --build easrelay-deb
+
+clean:
+	rm -rf ./bin/*
+	rm -f *.deb
