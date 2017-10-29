@@ -21,5 +21,5 @@ deb: all
 	dpkg-deb --build easrelay-deb
 
 clean:
-	rm -rf ./bin/*
+	rm -rf ./bin
 	rm -f *.deb
