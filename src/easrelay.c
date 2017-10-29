@@ -245,7 +245,7 @@ int main(int argc, char **argv) {
 	goto wait_for_footer;
       }
       endwin();
-      cursesChar='\0'
+      cursesChar='\0';
       /* kill the audio and then send the footer */
       kill(pid, SIGKILL);
       for(int i = 0; i < 3; i++) {
