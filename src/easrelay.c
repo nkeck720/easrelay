@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <curses.h>
 
 #define CALLSIGN "WABC/TV "
 int numRecievedCodes = 0;
@@ -120,7 +121,7 @@ int main(int argc, char **argv) {
       fscanf(monitorInput, "%c", &charIn);
       /* Get the fips codes in a loop */
       if(strcmp(alertCode, "NPT") == 0) {
-	relayingMessage == true;
+	relayingMessage = true;
 	printf("National EAS test in progress, relaying\n");
 	fflush(stdout);
       }
@@ -198,7 +199,7 @@ int main(int argc, char **argv) {
       } while(charIn != '-');
       /* See if the message needs to be relayed */
       if(strcmp(alertCode, "RWT") == 0) {
-	relayingMessage == false;
+	relayingMessage = false;
 	printf("Not relaying a weekly test.\n");
 	fflush(stdout);
       }
@@ -225,14 +226,23 @@ int main(int argc, char **argv) {
         execvp("dd",argv);
         exit(127); /* only if execv fails */
       }
-      /* Wait for the NNNN footer to come in */
+      /* Wait for the NNNN footer to come in or user to end alert */
+      int cursesChar = 0;
     wait_for_footer:
       do {
+	initscr();
+	timeout(-1);
+	noecho();
+	if(getch() == 'e') {
+	  cursesChar = 'e';
+	  break;
+	}
+	endwin();
 	fscanf(monitorInput, "%c", &charIn);
       } while(charIn != 'N');
       /* See if the next one is also an N, if not keep waiting */
       fscanf(monitorInput, "%c", &charIn);
-      if(charIn != 'N') {
+      if(charIn != 'N' && cursesChar != 'e') {
 	goto wait_for_footer;
       }
       /* kill the audio and then send the footer */

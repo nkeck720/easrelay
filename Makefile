@@ -5,9 +5,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -g -O2
 
 all:
-	cd src
-	$(CC) $(CFLAGS) -o ./bin/easrelay ./src/easrelay.c
-	cd ..
+	$(CC) $(CFLAGS) -o ./bin/easrelay ./src/easrelay.c -lncurses
 
 deb: all
 	@echo "Building Debian package..."
