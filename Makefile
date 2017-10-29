@@ -5,6 +5,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -g -O2
 
 all:
+	mkdir bin
 	$(CC) $(CFLAGS) -o ./bin/easrelay ./src/easrelay.c -lncurses
 
 deb: all
