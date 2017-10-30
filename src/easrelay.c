@@ -165,7 +165,7 @@ int main(int argc, char **argv) {
 	  fscanf(monitorInput, "%c", &charIn);
 	  if(charIn == '+') {
 	    gettingFipsCodes = false;
-	    numRecievedCodes = fipsIndex - 1;
+	    numRecievedCodes = fipsIndex;
 	  }
 	  else {
 	    fscanf(monitorInput, "%c", &charIn);
@@ -228,22 +228,23 @@ int main(int argc, char **argv) {
       }
       /* Wait for the NNNN footer to come in or user to end alert */
       int cursesChar = 0;
-    wait_for_footer:
       initscr();
       timeout(-1);
       noecho();
+    wait_for_footer:
       do {
-	if(getch() == 'e') {
-	  cursesChar = 'e';
-	  break;
-	}
 	fscanf(monitorInput, "%c", &charIn);
+	if(getch() == 'e') {
+	  goto end_alert;
+	}
       } while(charIn != 'N');
       /* See if the next one is also an N, if not keep waiting */
       fscanf(monitorInput, "%c", &charIn);
-      if(charIn != 'N' && cursesChar != 'e') {
+      if(charIn != 'N') {
 	goto wait_for_footer;
       }
+      // End the alert
+    end_alert:
       endwin();
       cursesChar='\0';
       /* kill the audio and then send the footer */
