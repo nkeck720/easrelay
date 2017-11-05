@@ -83,47 +83,47 @@ int main(int argc, char **argv) {
       /* Get rid of the - */
       fscanf(monitorInput, "%c", &charIn);
       for(int i = 0; i < 3; i++) {
-	fscanf(monitorInput, "%c", &originatorCode[i]);
+		fscanf(monitorInput, "%c", &originatorCode[i]);
       }
       if((strcmp(originatorCode, "PEP")) == 0) {
-	printf("Initiated by Primary Entry Point\n");
+		printf("Initiated by Primary Entry Point\n");
       }
       else if((strcmp(originatorCode, "CIV")) == 0) {
-	printf("Initiated by Civil Authorities\n");
+		printf("Initiated by Civil Authorities\n");
       }
       else if((strcmp(originatorCode, "WXR")) == 0) {
-	printf("Initiated by National Weather Service\n");
+		printf("Initiated by National Weather Service\n");
       }
       else if((strcmp(originatorCode, "EAS")) == 0) {
-	printf("Initaited by EAS Participant\n");
+		printf("Initaited by EAS Participant\n");
       }
       else if((strcmp(originatorCode, "EAN")) == 0) {
-	printf("\x1b[31m" "EMERGENCY ACTION NOTIFICATION NETWORK\n" "\x1b[0m");
+		printf("\x1b[31m" "EMERGENCY ACTION NOTIFICATION NETWORK\n" "\x1b[0m");
       }
       else {
-	printf("Invalid originator code (not relaying)\n");
+		printf("Invalid originator code (not relaying)\n");
 	continue;
       }
       /* Next - to get rid of */
       fscanf(monitorInput, "%c", &charIn);
       /* Get the alert code */
       for(int i = 0; i < 3; i++) {
-	fscanf(monitorInput, "%c", &alertCode[i]);
+		fscanf(monitorInput, "%c", &alertCode[i]);
       }
       /* If EAN then needs immediate retransmission */
       bool relayingMessage = false;
       if(strcmp("EAN", alertCode) == 0) {
-	printf("\x1b[31m" "EAN RECIEVED, NEEDS IMMEDIATE RETRANSMISSON!\n" "\x1b[0m");
-	relayingMessage = true;
+		printf("\x1b[31m" "EAN RECIEVED, NEEDS IMMEDIATE RETRANSMISSON!\n" "\x1b[0m");
+		relayingMessage = true;
       }
       printf("Alert code: %s\n", alertCode);
       /* Next dash */
       fscanf(monitorInput, "%c", &charIn);
       /* Get the fips codes in a loop */
       if(strcmp(alertCode, "NPT") == 0) {
-	relayingMessage = true;
-	printf("National EAS test in progress, relaying\n");
-	fflush(stdout);
+		relayingMessage = true;
+		printf("National EAS test in progress, relaying\n");
+		fflush(stdout);
       }
       printf("FIPS codes issued to:\n");
       int fipsIndex = 0;
@@ -233,15 +233,15 @@ int main(int argc, char **argv) {
       noecho();
     wait_for_footer:
       do {
-	fscanf(monitorInput, "%c", &charIn);
-	if(getch() == 'e') {
-	  goto end_alert;
-	}
+			fscanf(monitorInput, "%c", &charIn);
+			if(getch() == 'e') {
+				goto end_alert;
+			}
       } while(charIn != 'N');
       /* See if the next one is also an N, if not keep waiting */
       fscanf(monitorInput, "%c", &charIn);
       if(charIn != 'N') {
-	goto wait_for_footer;
+		goto wait_for_footer;
       }
       // End the alert
     end_alert:
@@ -250,9 +250,9 @@ int main(int argc, char **argv) {
       /* kill the audio and then send the footer */
       kill(pid, SIGKILL);
       for(int i = 0; i < 3; i++) {
-	fprintf(monitorOut, "NNNN");
-	fflush(monitorOut);
-	sleep(1);
+		fprintf(monitorOut, "NNNN");
+		fflush(monitorOut);
+		sleep(1);
       }
       pclose(monitorOut);
       printf("Alert Ended\n");
