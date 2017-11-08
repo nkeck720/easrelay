@@ -234,9 +234,6 @@ int main(int argc, char **argv) {
     wait_for_footer:
       do {
 			fscanf(monitorInput, "%c", &charIn);
-			if(getch() == 'e') {
-				goto end_alert;
-			}
       } while(charIn != 'N');
       /* See if the next one is also an N, if not keep waiting */
       fscanf(monitorInput, "%c", &charIn);
